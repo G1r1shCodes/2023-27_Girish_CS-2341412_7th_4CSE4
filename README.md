@@ -37,7 +37,7 @@
 2023-27_Girish_CS-2341412_7th_4CSE4/
 ├── Internship Certificate.pdf         # Official Internship Certificate (KDI Power Pvt Ltd)
 ├── Internship Report.pdf              # Comprehensive Internship Project & Architecture Report
-├── Internship Presentation.pptx       # Internship Overview & Project Demo Presentation (PPT)
+├── Internship Presentation.pdf        # Internship Overview & Project Demo Presentation (PDF)
 ├── README.md                          # Master Repository Documentation & Collective Project Index
 │
 ├── Whatsapp-Bot-/                     # Project 1: AI WhatsApp Business Bot & Sales Dashboard
@@ -59,7 +59,7 @@
 ### 2.  Internship Report (`Internship Report.pdf`)
 * Exhaustive technical report documenting the problem statement, system architecture, database design (Supabase pgvector), LLM prompts, scraping mechanics, automated testing, and production deployment on cloud services (Render, Vercel/Vite, Google Cloud API).
 
-### 3.  Internship Presentation (`Internship Presentation.pptx`)
+### 3.  Internship Presentation (`Internship Presentation.pdf`)
 * Visual slide deck outlining the company profile (KDI Power Pvt Ltd), technology stack evolution, live system screenshots, code walkthroughs, ROI/productivity metrics achieved, and future scope.
 
 ---
