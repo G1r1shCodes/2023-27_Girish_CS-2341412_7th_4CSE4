@@ -35,7 +35,7 @@
 
 ```text
 2023-27_Girish_CS-2341412_7th_4CSE4/
-├── COI GIRISH.pdf                     # Official Internship Certificate (KDI Power Pvt Ltd)
+├── Internship Certificate.pdf         # Official Internship Certificate (KDI Power Pvt Ltd)
 ├── Internship Report.pdf              # Comprehensive Internship Project & Architecture Report
 ├── Internship Presentation.pptx       # Internship Overview & Project Demo Presentation (PPT)
 ├── README.md                          # Master Repository Documentation & Collective Project Index
@@ -51,7 +51,7 @@
 
 ## 📄 Key Internship Artifacts
 
-### 1.  Internship Certificate (`COI GIRISH.pdf`)
+### 1.  Internship Certificate (`Internship Certificate.pdf`)
 * **Certificate ID:** `KDIP/INT/2026/AI-014`
 * **Issued Date:** 2nd September 2026
 * **Key Achievements Recognized:** Successfully designed, developed, and deployed the KDI Power WhatsApp Business Messaging System, PDF Editor, and LinkedIn Lead Generator with high evaluation marks across all technical and professional parameters.
