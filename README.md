@@ -1,4 +1,4 @@
-# 🎓 Industrial Internship Portfolio & Project Documentation
+#  Industrial Internship Portfolio & Project Documentation
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
@@ -51,20 +51,20 @@
 
 ## 📄 Key Internship Artifacts
 
-### 1. 📜 Internship Certificate (`COI GIRISH.pdf`)
+### 1.  Internship Certificate (`COI GIRISH.pdf`)
 * **Certificate ID:** `KDIP/INT/2026/AI-014`
 * **Issued Date:** 2nd September 2026
 * **Key Achievements Recognized:** Successfully designed, developed, and deployed the KDI Power WhatsApp Business Messaging System, PDF Editor, and LinkedIn Lead Generator with high evaluation marks across all technical and professional parameters.
 
-### 2. 📘 Internship Report (`Internship Report.pdf`)
+### 2.  Internship Report (`Internship Report.pdf`)
 * Exhaustive technical report documenting the problem statement, system architecture, database design (Supabase pgvector), LLM prompts, scraping mechanics, automated testing, and production deployment on cloud services (Render, Vercel/Vite, Google Cloud API).
 
-### 3. 📊 Internship Presentation (`Internship Presentation.pptx`)
+### 3.  Internship Presentation (`Internship Presentation.pptx`)
 * Visual slide deck outlining the company profile (KDI Power Pvt Ltd), technology stack evolution, live system screenshots, code walkthroughs, ROI/productivity metrics achieved, and future scope.
 
 ---
 
-## 🚀 Projects Overview Matrix
+##  Projects Overview Matrix
 
 | # | Project Name | Tech Stack | Key Functionality | Deployment / Status |
 |---|---|---|---|---|
@@ -76,7 +76,7 @@
 
 ---
 
-## 💻 Detailed Project Breakdown
+##  Detailed Project Breakdown
 
 ### Project 1: KDI Power AI WhatsApp Assistant & Sales Dashboard
 * **Directory:** [`Whatsapp-Bot-`](file:///d:/Whatsapp-Bot-)
@@ -121,7 +121,7 @@
 
 ---
 
-## 🛠️ Global Technology Stack & Tools
+##  Global Technology Stack & Tools
 
 * **Programming Languages:** Python 3.10+, JavaScript (ES6+), HTML5, CSS3, SQL
 * **Frontend Frameworks & Libraries:** React 18, Vite, Chart.js, Vanilla Glassmorphism CSS
@@ -133,7 +133,7 @@
 
 ---
 
-## ⚙️ Installation & Running Guidelines
+##  Installation & Running Guidelines
 
 To inspect or execute any of the individual internship projects locally, navigate to their respective subfolders and follow the setup instructions in their local `README.md`:
 
@@ -169,7 +169,7 @@ python send_reminders.py
 
 ---
 
-## 🏆 Conclusion & Industry Impact
+##  Conclusion & Industry Impact
 
 During the 2-month internship tenure at **KDI Power Private Limited**, the developed software solutions successfully automated:
 1. Customer inbound sales query responses and lead capture via WhatsApp.
