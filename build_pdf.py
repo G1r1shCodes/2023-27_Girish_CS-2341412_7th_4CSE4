@@ -5,7 +5,7 @@ from reportlab.lib import colors
 from reportlab.lib.units import inch
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import (
-    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, HRFlowable
+    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, HRFlowable, Image as RLImage
 )
 from reportlab.pdfgen import canvas
 
@@ -30,24 +30,20 @@ class NumberedCanvas(canvas.Canvas):
         if self._pageNumber == 1:
             return  # Suppress page number on cover page
         self.saveState()
-        self.setFont("Helvetica", 10)
+        self.setFont("Times-Roman", 10)
         self.setFillColor(colors.HexColor("#333333"))
-        page_text = f"Page {self._pageNumber} of {page_count}"
-        self.drawRightString(A4[0] - 54, 36, page_text)
-        self.drawString(54, 36, "KDI Power Pvt. Ltd. — Industrial Internship Report")
-        self.setStrokeColor(colors.HexColor("#CCCCCC"))
-        self.setLineWidth(0.5)
-        self.line(54, 50, A4[0] - 54, 50)
+        page_text = f"{self._pageNumber}"
+        self.drawCentredString(A4[0] / 2, 36, page_text)
         self.restoreState()
 
 def build_pdf(filename="Internship Report.pdf"):
     doc = SimpleDocTemplate(
         filename,
         pagesize=A4,
-        leftMargin=54,
-        rightMargin=54,
-        topMargin=54,
-        bottomMargin=64
+        leftMargin=1.5*inch,
+        rightMargin=1.0*inch,
+        topMargin=0.75*inch,
+        bottomMargin=1.0*inch
     )
     
     styles = getSampleStyleSheet()
@@ -55,220 +51,269 @@ def build_pdf(filename="Internship Report.pdf"):
     title_style = ParagraphStyle(
         'CoverTitle',
         parent=styles['Normal'],
-        fontName='Helvetica-Bold',
-        fontSize=24,
-        leading=28,
+        fontName='Times-Bold',
+        fontSize=20,
+        leading=24,
         alignment=1,
-        textColor=colors.HexColor("#1A365D")
+        textColor=colors.black
     )
-    
+
     subtitle_style = ParagraphStyle(
         'CoverSubTitle',
         parent=styles['Normal'],
-        fontName='Helvetica-Bold',
-        fontSize=16,
-        leading=20,
+        fontName='Times-Bold',
+        fontSize=14,
+        leading=18,
         alignment=1,
-        textColor=colors.HexColor("#2B6CB0")
+        textColor=colors.black
     )
 
     body_center = ParagraphStyle(
         'CoverCenter',
         parent=styles['Normal'],
-        fontName='Helvetica',
+        fontName='Times-Roman',
         fontSize=12,
         leading=16,
         alignment=1,
-        textColor=colors.HexColor("#2D3748")
+        textColor=colors.black
+    )
+
+    chap_style = ParagraphStyle(
+        'ChapHeader',
+        parent=styles['Normal'],
+        fontName='Times-Bold',
+        fontSize=14,
+        leading=18,
+        alignment=1,
+        spaceBefore=15,
+        spaceAfter=15,
+        textColor=colors.black,
+        keepWithNext=True
     )
     
     h1_style = ParagraphStyle(
         'Header1',
         parent=styles['Normal'],
-        fontName='Helvetica-Bold',
-        fontSize=16,
-        leading=20,
-        spaceBefore=14,
-        spaceAfter=8,
-        textColor=colors.HexColor("#1A365D"),
+        fontName='Times-Bold',
+        fontSize=12,
+        leading=15,
+        spaceBefore=12,
+        spaceAfter=6,
+        textColor=colors.black,
         keepWithNext=True
     )
 
     h2_style = ParagraphStyle(
         'Header2',
         parent=styles['Normal'],
-        fontName='Helvetica-Bold',
-        fontSize=13,
-        leading=17,
+        fontName='Times-BoldItalic',
+        fontSize=12,
+        leading=15,
         spaceBefore=10,
-        spaceAfter=6,
-        textColor=colors.HexColor("#2B6CB0"),
+        spaceAfter=4,
+        textColor=colors.black,
         keepWithNext=True
     )
     
     body_style = ParagraphStyle(
         'BodyDark',
         parent=styles['Normal'],
-        fontName='Helvetica',
-        fontSize=10.5,
-        leading=15,
+        fontName='Times-Roman',
+        fontSize=12,
+        leading=16,
         spaceAfter=8,
-        textColor=colors.HexColor("#2D3748")
-    )
-
-    bullet_style = ParagraphStyle(
-        'BulletDark',
-        parent=styles['Normal'],
-        fontName='Helvetica',
-        fontSize=10,
-        leading=14,
-        leftIndent=15,
-        spaceAfter=4,
-        textColor=colors.HexColor("#2D3748")
+        textColor=colors.black
     )
 
     story = []
 
     # ================= COVER PAGE =================
-    story.append(Spacer(1, 20))
-    story.append(Paragraph("INDUSTRIAL INTERNSHIP REPORT", title_style))
+    story.append(Spacer(1, 15))
+    story.append(Paragraph("Report", title_style))
+    story.append(Spacer(1, 6))
+    story.append(Paragraph("of", body_center))
     story.append(Spacer(1, 10))
-    story.append(Paragraph("on", body_center))
-    story.append(Spacer(1, 10))
-    story.append(Paragraph("AI & Automation Systems for Cable<br/>Manufacturing & Operations", subtitle_style))
-    story.append(Spacer(1, 25))
-    story.append(Paragraph("<b>Submitted To</b><br/>Department of Computer Science & Engineering<br/>School of Engineering & Technology", body_center))
+    story.append(Paragraph("AI & AUTOMATION SYSTEMS FOR CABLE<br/>MANUFACTURING & OPERATIONS", title_style))
+    story.append(Spacer(1, 6))
+    story.append(Paragraph("KDI Power Business Automation & AI Platform", subtitle_style))
     story.append(Spacer(1, 20))
-    story.append(Paragraph("<i>In partial fulfilment of the requirements for the degree of</i><br/><b>Bachelor of Technology in Computer Science & Engineering</b>", body_center))
-    story.append(Spacer(1, 30))
+    story.append(Paragraph("Submitted To", body_center))
+    story.append(Spacer(1, 8))
+    story.append(Paragraph("<b>Department of Computer Science and Engineering</b><br/>School of Computer Science and Engineering<br/>IILM University, Greater Noida, U.P.", body_center))
+    story.append(Spacer(1, 15))
+    story.append(Paragraph("In partial fulfilment of the requirement of degree of", body_center))
+    story.append(Spacer(1, 8))
+    story.append(Paragraph("<b>B.Tech CSE</b>", subtitle_style))
+    story.append(Spacer(1, 15))
     
-    meta_table_data = [
-        [Paragraph("<b>Student Name:</b>", body_style), Paragraph("Girish Kumar Yadav", body_style)],
-        [Paragraph("<b>Roll Number:</b>", body_style), Paragraph("CS-2341412", body_style)],
-        [Paragraph("<b>Batch / Session:</b>", body_style), Paragraph("2023–2027 (4th Year / 7th Semester)", body_style)],
-        [Paragraph("<b>Section:</b>", body_style), Paragraph("4CSE4", body_style)],
-        [Paragraph("<b>Host Organization:</b>", body_style), Paragraph("KDI Power Private Limited, Delhi", body_style)],
-        [Paragraph("<b>Internship Duration:</b>", body_style), Paragraph("29 June 2026 – 31 August 2026 (2 Months)", body_style)],
-        [Paragraph("<b>Certificate No.:</b>", body_style), Paragraph("KDIP/INT/2026/AI-014", body_style)],
-    ]
-    t = Table(meta_table_data, colWidths=[2.2*inch, 4.2*inch])
-    t.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#F7FAFC")),
-        ('BOX', (0,0), (-1,-1), 1, colors.HexColor("#CBD5E0")),
-        ('INNERGRID', (0,0), (-1,-1), 0.5, colors.HexColor("#E2E8F0")),
-        ('TOPPADDING', (0,0), (-1,-1), 6),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 6),
-        ('LEFTPADDING', (0,0), (-1,-1), 10),
-        ('RIGHTPADDING', (0,0), (-1,-1), 10),
-    ]))
-    story.append(t)
+    if os.path.exists("logo.png"):
+        story.append(RLImage("logo.png", width=1.8*inch, height=1.8*inch))
+        story.append(Spacer(1, 15))
+        
+    story.append(Paragraph("<b>By</b>", body_center))
+    story.append(Spacer(1, 10))
+    story.append(Paragraph("Roll Number of Student: <b>CS-2341412</b><br/>Name of Student: <b>GIRISH KUMAR YADAV</b><br/>Batch: <b>2023–27 (Section 4CSE4)</b>", body_center))
+    story.append(Spacer(1, 30))
+    story.append(Paragraph("31 August 2026", body_center))
     story.append(PageBreak())
 
     # ================= CANDIDATE DECLARATION =================
-    story.append(Paragraph("Candidate's Declaration", h1_style))
-    story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor("#1A365D"), spaceAfter=15))
+    story.append(Paragraph("Candidate's Declaration", chap_style))
     decl_text = (
-        "I, <b>Girish Kumar Yadav</b>, Roll No. <b>CS-2341412</b>, student of B.Tech 7th Semester, Section <b>4CSE4</b> "
-        "(Session <b>2023–27</b>), Department of Computer Science and Engineering, hereby declare that the internship report "
-        "titled <b>\"AI & Automation Systems for Cable Manufacturing & Operations\"</b> is an authentic record of my own work "
-        "carried out during my two-month industrial internship from <b>29 June 2026 to 31 August 2026</b> at <b>KDI Power Private Limited</b>, "
-        "New Delhi, under Certificate No. <b>KDIP/INT/2026/AI-014</b>.<br/><br/>"
-        "All references and resources used in this report have been duly acknowledged. I affirm that this report has not been submitted "
-        "elsewhere for the award of any other degree or diploma."
+        "I, <b>GIRISH KUMAR YADAV</b> do hereby declare that the internship report titled "
+        "<b>\"AI & AUTOMATION SYSTEMS FOR CABLE MANUFACTURING & OPERATIONS --- KDI Power Business Automation & AI Platform\"</b> "
+        "has been completed by me to fulfil the requirement for the award of the degree of Bachelor of Technology in CSE. "
+        "All the references have been quoted and I have not taken as such any material from any other source. "
+        "I affirm to you that this report is my own and has not been submitted to any other institute for any degree/diploma requirement "
+        "and further I shall be solely responsible for any kind of copyright violation in this regard."
     )
     story.append(Paragraph(decl_text, body_style))
     story.append(Spacer(1, 40))
     story.append(Paragraph("<b>Signature:</b> ___________________________", body_style))
-    story.append(Paragraph("<b>Student Name:</b> Girish Kumar Yadav", body_style))
-    story.append(Paragraph("<b>Roll Number:</b> CS-2341412", body_style))
-    story.append(Paragraph("<b>Batch:</b> 2023–27 (4CSE4)", body_style))
-    story.append(Spacer(1, 20))
+    story.append(Paragraph("<b>Student Name:</b> GIRISH KUMAR YADAV", body_style))
+    story.append(Paragraph("<b>Roll No.:</b> CS-2341412", body_style))
+    story.append(Paragraph("<b>Date:</b> 31 August 2026", body_style))
     story.append(PageBreak())
 
     # ================= ACKNOWLEDGEMENT =================
-    story.append(Paragraph("Acknowledgement", h1_style))
-    story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor("#1A365D"), spaceAfter=15))
+    story.append(Paragraph("Acknowledgement", chap_style))
     ack_text = (
-        "I express my deepest gratitude to the management of <b>KDI Power Private Limited</b>, New Delhi, for granting me the "
-        "opportunity to undergo a two-month industrial internship in Artificial Intelligence & Automation. I am particularly indebted to "
-        "<b>Mr. Vijay Gautam</b>, Administrative Manager, for his continuous guidance, encouragement, and invaluable domain insights "
-        "throughout the project lifecycle.<br/><br/>"
-        "I also extend my sincere appreciation to the faculty members of the Department of Computer Science and Engineering for their "
-        "constant support and academic foundation. Finally, I thank my family and peers for their unceasing motivation."
+        "I am using this opportunity to express my gratitude to everyone who supported me throughout the Internship Program. "
+        "I am thankful for their aspiring guidance, invaluably constructive criticism and friendly advice during this work. "
+        "I am sincerely grateful to them for sharing their truthful and illuminating views on a number of issues related to this work.<br/><br/>"
+        "I would like to express my deepest appreciation to <b>Mr. Vijay Gautam</b>, Administrative Manager, KDI Power Private Limited, New Delhi, "
+        "for providing me with the opportunity to intern at the organization and for his mentorship throughout the internship period.<br/><br/>"
+        "I am profoundly grateful to the entire <b>Engineering & Operations Team</b> at KDI Power for their continuous support and technical insights.<br/><br/>"
+        "I extend my sincere thanks to <b>IILM University, Greater Noida</b>, and the <b>School of Computer Science and Engineering</b> for facilitating "
+        "this internship opportunity."
     )
     story.append(Paragraph(ack_text, body_style))
-    story.append(Spacer(1, 40))
+    story.append(Spacer(1, 30))
     story.append(Paragraph("<b>Signature:</b> ___________________________", body_style))
-    story.append(Paragraph("<b>Student Name:</b> Girish Kumar Yadav", body_style))
-    story.append(Paragraph("<b>Roll Number:</b> CS-2341412", body_style))
-    story.append(Spacer(1, 20))
+    story.append(Paragraph("<b>Student Name:</b> GIRISH KUMAR YADAV", body_style))
+    story.append(Paragraph("<b>Roll No.:</b> CS-2341412", body_style))
+    story.append(Paragraph("<b>Date:</b> 31 August 2026", body_style))
     story.append(PageBreak())
 
-    # ================= EXECUTIVE SUMMARY & PROJECT BREAKDOWN =================
-    story.append(Paragraph("1. Executive Summary & Company Profile", h1_style))
-    story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor("#1A365D"), spaceAfter=12))
-    
-    summary_text = (
-        "<b>KDI Power Private Limited</b> is an ISO 9001, ISO 14001, and ISO 45001 certified manufacturer of electrical wires and cables "
-        "headquartered in New Delhi, India. The company manufactures Low Voltage (LT) Power Cables, Aerial Bunched Cables (ABC), XLPE Power Cables, "
-        "Control Cables, House Wires, and Rubber Cables for DISCOM utilities, EPC contractors, and global distributors.<br/><br/>"
-        "During the 2-month industrial internship (June 29 – Aug 31, 2026), I worked as an <b>AI & Automation Engineer</b> and developed "
-        "five major production applications to automate sales, lead generation, tender tracking, document processing, and task management."
-    )
-    story.append(Paragraph(summary_text, body_style))
-    story.append(Spacer(1, 10))
-
-    story.append(Paragraph("2. Technical Projects Portfolio", h1_style))
-    story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor("#1A365D"), spaceAfter=12))
-
-    projects = [
-        ("Project 1: KDI Power AI WhatsApp Assistant & Sales Dashboard",
-         "Built an automated WhatsApp bot using FastAPI, Meta WhatsApp Cloud API, Groq AI (Llama 3.3 70B), Supabase PostgreSQL (pgvector RAG), "
-         "and a real-time glassmorphic single-page sales dashboard for analytics and price editing."),
-        ("Project 2: KDI Lead Intelligence & B2B Lead Discovery Engine",
-         "Engineered a 3-tier lead discovery pipeline with Google Maps Playwright scraping, proxy rotation, Groq LLM scoring engine (0-100 scale), "
-         "and automated formatted Excel exports (.xlsx) targeting cable distributors in India and South Africa."),
-        ("Project 3: LinkedIn Tender & Government Scheme Tracker",
-         "Developed an automated scraper using Playwright CDP attached to Chrome profiles and Mistral AI summarization to track competitor updates "
-         "(Polycab, KEI, Finolex, Havells) and government electrification orders (RDSS, DDUGJY)."),
-        ("Project 4: AI-Powered PDF Reconstructor & OCR Editor",
-         "Constructed a hybrid web editor with React 18 / Vite and FastAPI using MinerU layout detection, NVIDIA NIM VLM (Llama 3.2 90B Vision) "
-         "for table/math formula extraction, and Playwright headless Chromium for true PDF reconstruction."),
-        ("Project 5: Google Sheets & WhatsApp Task Automation Engine",
-         "Deployed a FastAPI webhook on Render connected to Google Sheets API v4 service accounts and WhatsApp Meta API for automated employee "
-         "task reminders and real-time IST completion timestamping.")
+    # ================= INTERNSHIP CERTIFICATE =================
+    story.append(Paragraph("Internship Completion Certificate", chap_style))
+    story.append(Spacer(1, 15))
+    cert_box_data = [
+        [Paragraph("<b>KDI POWER PRIVATE LIMITED</b><br/>"
+                   "<i>ISO 9001:2015, ISO 14001:2015, ISO 45001:2018 Certified Manufacturer</i><br/>New Delhi, India<br/><br/>"
+                   "<b>CERTIFICATE OF INTERNSHIP COMPLETION</b><br/>"
+                   "<b>Certificate No.: KDIP/INT/2026/AI-014</b> | <b>Date of Issue: 2nd September 2026</b><br/><br/>"
+                   "This is to certify that <b>Mr. GIRISH KUMAR YADAV</b> (Roll No. CS-2341412) has successfully completed a two-month internship "
+                   "in <b>Artificial Intelligence & Automation</b> with <b>KDI Power Private Limited</b>, from <b>29 June 2026 to 31 August 2026</b>. "
+                   "During this period, he demonstrated strong technical aptitude, initiative, and commitment, and independently designed, developed, "
+                   "and deployed the KDI Power WhatsApp Business Messaging System, PDF Editor, and LinkedIn Lead Generator.<br/><br/>"
+                   "<b>Authorized Signatory:</b> VIJAY GAUTAM, Administrative Manager, KDI Power Pvt. Ltd.", body_style)]
     ]
+    t_box = Table(cert_box_data, colWidths=[5.5*inch])
+    t_box.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#F8F9FA")),
+        ('BOX', (0,0), (-1,-1), 1, colors.HexColor("#A0AEC0")),
+        ('TOPPADDING', (0,0), (-1,-1), 12),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 12),
+        ('LEFTPADDING', (0,0), (-1,-1), 14),
+        ('RIGHTPADDING', (0,0), (-1,-1), 14),
+    ]))
+    story.append(t_box)
+    story.append(PageBreak())
 
-    for title, desc in projects:
-        story.append(Paragraph(title, h2_style))
-        story.append(Paragraph(desc, body_style))
-        story.append(Spacer(1, 4))
-
-    story.append(Spacer(1, 10))
-    story.append(Paragraph("3. Summary Matrix of Internship Deliverables", h1_style))
-    story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor("#1A365D"), spaceAfter=12))
-
-    matrix_data = [
-        [Paragraph("<b>#</b>", body_style), Paragraph("<b>Project</b>", body_style), Paragraph("<b>Tech Stack</b>", body_style), Paragraph("<b>Status</b>", body_style)],
-        [Paragraph("1", body_style), Paragraph("WhatsApp Sales Bot", body_style), Paragraph("FastAPI, Meta API, Groq, Supabase", body_style), Paragraph("Deployed", body_style)],
-        [Paragraph("2", body_style), Paragraph("Lead Intelligence", body_style), Paragraph("Playwright, Groq, SQLite, Excel", body_style), Paragraph("Deployed", body_style)],
-        [Paragraph("3", body_style), Paragraph("LinkedIn Tender Tracker", body_style), Paragraph("Playwright CDP, Mistral AI, Excel", body_style), Paragraph("Deployed", body_style)],
-        [Paragraph("4", body_style), Paragraph("AI PDF Editor", body_style), Paragraph("React 18, Vite, FastAPI, MinerU, NIM", body_style), Paragraph("Deployed", body_style)],
-        [Paragraph("5", body_style), Paragraph("Task Reminder Bot", body_style), Paragraph("FastAPI, Google Sheets API, Render", body_style), Paragraph("Deployed", body_style)],
-    ]
+    # ================= CHAPTER 1 =================
+    story.append(Paragraph("Chapter 1: Project Description", chap_style))
     
-    t_matrix = Table(matrix_data, colWidths=[0.4*inch, 1.8*inch, 2.8*inch, 1.4*inch])
-    t_matrix.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#2B6CB0")),
-        ('TEXTCOLOR', (0,0), (-1,0), colors.white),
+    story.append(Paragraph("1.1 Introduction", h1_style))
+    story.append(Paragraph(
+        "The global industrial manufacturing vertical, particularly electrical wire and cable manufacturing, operates in a high-demand environment "
+        "where operations, sales, and field teams must manage trade inquiries, technical datasheets, competitive tenders, and employee tasks efficiently.<br/><br/>"
+        "<b>KDI Power Private Limited</b> commissioned the development of an integrated suite of Artificial Intelligence and Automation systems. "
+        "During my industrial internship from <b>29 June 2026 to 31 August 2026</b>, I designed, built, and deployed five core software systems: "
+        "(1) WhatsApp AI Assistant & Sales Dashboard; (2) KDI Lead Intelligence Engine; (3) LinkedIn Tender & Scheme Tracker; "
+        "(4) AI PDF Reconstructor & Editor; and (5) Google Sheets Task Automation Bot.", body_style
+    ))
+
+    story.append(Paragraph("1.2 Organization Profile", h1_style))
+    story.append(Paragraph(
+        "<b>KDI Power Private Limited</b> is an ISO 9001, ISO 14001, and ISO 45001 certified manufacturer of electrical wires and cables headquartered in New Delhi. "
+        "Its core product portfolio includes Low Voltage (LT) Power Cables, XLPE Cables, Aerial Bunched Cables (ABC), Control Cables, House Wires, and Rubber Cables.", body_style
+    ))
+
+    story.append(Paragraph("1.3 Problem Statement", h1_style))
+    story.append(Paragraph(
+        "1. Delayed Sales Turnaround on WhatsApp during off-hours.<br/>"
+        "2. High Cost of International B2B Lead Discovery for export markets.<br/>"
+        "3. Manual Competitor & Tender Tracking across news and social channels.<br/>"
+        "4. Uneditable Technical Datasheet Scans needing layout/formula extraction.<br/>"
+        "5. Operational Task Tracking Overhead with manual phone follow-ups.", body_style
+    ))
+
+    story.append(Paragraph("1.4 Project Objectives", h1_style))
+    story.append(Paragraph(
+        "• Build automated WhatsApp Bot with Meta Cloud API and Supabase pgvector RAG.<br/>"
+        "• Create a 3-tier lead discovery pipeline with Google Maps Playwright scraping and Groq scoring.<br/>"
+        "• Implement LinkedIn CDP scraper and Mistral AI post summarizer.<br/>"
+        "• Construct hybrid React/FastAPI PDF Editor using MinerU and NVIDIA NIM VLM.<br/>"
+        "• Deploy Google Sheets API webhook on Render with GitHub Actions cron runners.", body_style
+    ))
+
+    story.append(Paragraph("1.5 Technologies and Tools Used", h1_style))
+    
+    tech_data = [
+        [Paragraph("<b>Category</b>", body_style), Paragraph("<b>Technology / Tool</b>", body_style), Paragraph("<b>Purpose</b>", body_style)],
+        [Paragraph("Backend", body_style), Paragraph("Python 3.10+, FastAPI, Flask, Streamlit", body_style), Paragraph("Microservices, APIs, Scrapers", body_style)],
+        [Paragraph("Frontend", body_style), Paragraph("React 18, Vite, Chart.js, Glassmorphic CSS", body_style), Paragraph("Editor canvas, Sales dashboard UI", body_style)],
+        [Paragraph("Databases", body_style), Paragraph("Supabase PostgreSQL, pgvector, SQLite", body_style), Paragraph("Relational storage, RAG embeddings", body_style)],
+        [Paragraph("AI / LLMs", body_style), Paragraph("Groq (Llama 3.3), Mistral AI, NVIDIA NIM", body_style), Paragraph("Conversations, summaries, VLM OCR", body_style)],
+        [Paragraph("Automation", body_style), Paragraph("Playwright (Chromium/CDP), MinerU", body_style), Paragraph("Google Maps, LinkedIn CDP, PDF OCR", body_style)],
+    ]
+    t_tech = Table(tech_data, colWidths=[1.1*inch, 2.3*inch, 2.1*inch])
+    t_tech.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (-1,0), colors.HexColor("#EDF2F7")),
         ('BOX', (0,0), (-1,-1), 1, colors.HexColor("#CBD5E0")),
         ('INNERGRID', (0,0), (-1,-1), 0.5, colors.HexColor("#E2E8F0")),
         ('TOPPADDING', (0,0), (-1,-1), 5),
         ('BOTTOMPADDING', (0,0), (-1,-1), 5),
-        ('LEFTPADDING', (0,0), (-1,-1), 6),
-        ('RIGHTPADDING', (0,0), (-1,-1), 6),
     ]))
-    story.append(t_matrix)
+    story.append(t_tech)
+    story.append(Spacer(1, 10))
+
+    story.append(Paragraph("1.6 System Architecture Diagrams", h1_style))
+    if os.path.exists("architecture_diagram.png"):
+        story.append(RLImage("architecture_diagram.png", width=5.5*inch, height=2.8*inch))
+        story.append(Paragraph("<font size=9>Figure 1.1: System Architecture Diagram of KDI Power Platform</font>", body_center))
+        story.append(Spacer(1, 10))
+
+    if os.path.exists("image.png"):
+        story.append(RLImage("image.png", width=5.5*inch, height=2.8*inch))
+        story.append(Paragraph("<font size=9>Figure 1.2: End-to-End B2B Lead Intelligence Pipeline Workflow</font>", body_center))
+        story.append(Spacer(1, 10))
+
+    if os.path.exists("dashboard.png"):
+        story.append(RLImage("dashboard.png", width=5.5*inch, height=2.8*inch))
+        story.append(Paragraph("<font size=9>Figure 1.3: Glassmorphic Sales Analytics Dashboard UI</font>", body_center))
+        story.append(Spacer(1, 10))
+
+    story.append(PageBreak())
+
+    # ================= CHAPTER 2 =================
+    story.append(Paragraph("Chapter 2: Bibliography / References", chap_style))
+    bib_text = (
+        "1. Meta Platforms Inc. (2026). <i>WhatsApp Cloud API Documentation</i>.<br/>"
+        "2. FastAPI. (2026). <i>FastAPI Framework Documentation</i>.<br/>"
+        "3. Supabase. (2026). <i>Supabase PostgreSQL and pgvector Guide</i>.<br/>"
+        "4. Groq Inc. (2026). <i>Groq Llama 3.3 API Documentation</i>.<br/>"
+        "5. Microsoft Playwright. (2026). <i>Playwright for Python Documentation</i>.<br/>"
+        "6. Mistral AI. (2026). <i>Mistral Developer Platform Documentation</i>.<br/>"
+        "7. Google Cloud. (2026). <i>Google Sheets API v4 Guide</i>.<br/>"
+        "8. NVIDIA NIM. (2026). <i>Llama 3.2 90B Vision LLM Documentation</i>.<br/>"
+        "9. React. (2026). <i>React 18 Documentation</i>.<br/>"
+        "10. MinerU Authors. (2026). <i>MinerU PDF Layout Detection Engine</i>."
+    )
+    story.append(Paragraph(bib_text, body_style))
+    story.append(Spacer(1, 40))
+    story.append(Paragraph("<b>Report Prepared By:</b><br/><b>GIRISH KUMAR YADAV</b><br/>AI & Automation Engineering Intern<br/>KDI Power Private Limited, New Delhi<br/><b>Date:</b> 31 August 2026", body_style))
 
     doc.build(story, canvasmaker=NumberedCanvas)
     print(f"Successfully generated '{filename}'")

@@ -1,383 +1,636 @@
-% =====================================================================
-%  INTERNSHIP REPORT
-%  Topic: AI & Automation Systems for Cable Manufacturing & Operations
-%  Submitted to: Department of Computer Science and Engineering
-%  By: Girish Kumar Yadav (Roll No. CS-2341412)
-%  Format: B.Tech CSE, 2026-27 (4th Year / 7th Semester, Section 4CSE4)
-%
-%  Compile with: tectonic internship_report.tex (or XeLaTeX engine)
-% =====================================================================
+\documentclass[12pt,a4paper]{report}
 
-\documentclass[12pt,a4paper]{article}
-
-% ---------- Fonts (Times New Roman substitute: Liberation Serif, metric-compatible) ----------
-\usepackage{fontspec}
-\setmainfont{Liberation Serif}
-\IfFontExistsTF{Carlito}{%
-  \setsansfont{Carlito}%
-}{}
-% Rupee macro: switch to DejaVu Serif for the ₹ glyph, then switch back.
-\newfontfamily\rupeefont{DejaVu Serif}
-\newcommand{\rupee}{{\rupeefont ₹}}
-
-% ---------- Geometry: per prescribed format ----------
-% A4, Left 1.5", Right 1", Top 0.75", Bottom 1"
+% ============================================
+% PACKAGES
+% ============================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{times}
 \usepackage{geometry}
-\geometry{
-  a4paper,
-  top=0.75in,
-  bottom=1in,
-  left=1.5in,
-  right=1in,
-  headheight=14pt,
-  headsep=0.25in,
-  footskip=0.5in
-}
-
-% ---------- Line spacing: 1.5 for body, 1 for references ----------
 \usepackage{setspace}
-\onehalfspacing
-
-% ---------- Graphics, color, tables, lists ----------
+\usepackage{titlesec}
+\usepackage{fancyhdr}
 \usepackage{graphicx}
-\usepackage{xcolor}
 \usepackage{array}
-\usepackage{tabularx}
+\usepackage{longtable}
 \usepackage{booktabs}
 \usepackage{enumitem}
-\usepackage{caption}
 \usepackage{float}
-\usepackage{microtype}
-\usepackage{seqsplit}
-\let\origtexttt\texttt
-\renewcommand{\texttt}[1]{\origtexttt{\seqsplit{#1}}}
+\usepackage{caption}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{mdframed}
 
-% ---------- Section heading formatting: 14pt bold main, 12pt bold sub ----------
-\usepackage{titlesec}
+% ============================================
+% PAGE GEOMETRY (IILM Format)
+% ============================================
+\geometry{
+    left=1.5in,
+    right=1in,
+    top=0.75in,
+    bottom=1in,
+    headheight=14pt
+}
+
+% ============================================
+% LINE SPACING
+% ============================================
+\onehalfspacing
+
+% ============================================
+% PARAGRAPH SETTINGS
+% ============================================
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+
+% ============================================
+% HEADINGS FORMAT
+% ============================================
+\titleformat{\chapter}[display]
+    {\normalfont\fontsize{14}{16}\bfseries\centering}
+    {\chaptertitlename\ \thechapter}{20pt}{\fontsize{14}{16}\bfseries}
+\titlespacing*{\chapter}{0pt}{-20pt}{20pt}
+
 \titleformat{\section}
-  {\normalfont\bfseries\fontsize{14pt}{16.8pt}\selectfont\color{black}}
-  {\thesection}{1em}{}
-\titleformat{\subsection}
-  {\normalfont\bfseries\fontsize{12pt}{14.4pt}\selectfont\color{black}}
-  {\thesubsection}{1em}{}
-\titleformat{\subsubsection}
-  {\normalfont\bfseries\fontsize{12pt}{14.4pt}\selectfont\color{black}}
-  {\thesubsubsection}{1em}{}
-\titlespacing*{\section}{0pt}{18pt}{10pt}
-\titlespacing*{\subsection}{0pt}{12pt}{6pt}
+    {\normalfont\fontsize{12}{14}\bfseries}
+    {\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{12pt}{6pt}
 
-% ---------- Page numbering: centered at bottom ----------
-\usepackage{fancyhdr}
+\titleformat{\subsection}
+    {\normalfont\fontsize{12}{14}\bfseries}
+    {\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{10pt}{4pt}
+
+\titleformat{\subsubsection}
+    {\normalfont\fontsize{12}{14}\bfseries\itshape}
+    {\thesubsubsection}{1em}{}
+\titlespacing*{\subsubsection}{0pt}{8pt}{4pt}
+
+% ============================================
+% HEADER AND FOOTER
+% ============================================
 \pagestyle{fancy}
 \fancyhf{}
 \fancyfoot[C]{\thepage}
 \renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
-\fancypagestyle{plain}{%
-  \fancyhf{}%
-  \fancyfoot[C]{\thepage}%
-  \renewcommand{\headrulewidth}{0pt}%
-  \renewcommand{\footrulewidth}{0pt}%
-}
 
-% ---------- Hyperref last ----------
-\usepackage[
-  colorlinks=true,
-  linkcolor=black,
-  citecolor=black,
-  urlcolor=blue,
-  bookmarks=true,
-  bookmarksnumbered=true,
-  unicode=true,
-  pdftitle={Internship Report - AI and Automation Systems for Cable Manufacturing and Operations},
-  pdfauthor={Girish Kumar Yadav},
-  pdfsubject={B.Tech CSE Internship Report, 2026-27},
-  pdfkeywords={Internship, Artificial Intelligence, Automation, WhatsApp Bot, Lead Intelligence, LinkedIn Tracker, PDF Editor, KDI Power}
-]{hyperref}
+% ============================================
+% CUSTOM ENVIRONMENTS
+% ============================================
+\newmdenv[
+    linewidth=0.5pt,
+    linecolor=gray,
+    leftmargin=0pt,
+    rightmargin=0pt,
+    innertopmargin=8pt,
+    innerbottommargin=8pt,
+    innerrightmargin=10pt,
+    innerleftmargin=10pt,
+    backgroundcolor=gray!5
+]{notebox}
 
-% ---------- Captions ----------
-\captionsetup{font=small, labelfont=bf, labelsep=period, justification=justified, singlelinecheck=false}
-
-% ---------- Number figures and tables within sections ----------
-\usepackage{chngcntr}
-\counterwithin{figure}{section}
-\counterwithin{table}{section}
-\renewcommand{\thefigure}{\thesection.\arabic{figure}}
-\renewcommand{\thetable}{\thesection.\arabic{table}}
-
-% ---------- Justify paragraphs ----------
-\widowpenalty=10000
-\clubpenalty=10000
-
-% ---------- Path to figures ----------
-\graphicspath{{./assets/}{../download/assets/}{assets/}}
-
+% ============================================
+% DOCUMENT BEGINS
+% ============================================
 \begin{document}
 
-% =====================================================================
-% COVER PAGE (no page number)
-% =====================================================================
+% ============================================
+% COVER PAGE (NO PAGE NUMBER)
+% ============================================
 \thispagestyle{empty}
-\pagenumbering{gobble}
 \begin{center}
-{\fontsize{28pt}{34pt}\selectfont \textbf{Report}}\\[0.15in]
-{\fontsize{18pt}{22pt}\selectfont of}\\[0.4in]
 
-{\fontsize{20pt}{24pt}\selectfont \textbf{AI \& Automation Systems for Cable}}\\[0.15in]
-{\fontsize{20pt}{24pt}\selectfont \textbf{Manufacturing \& Operations}}\\[0.6in]
+\vspace*{0.5cm}
 
-{\fontsize{14pt}{18pt}\selectfont \textbf{Submitted To}}\\[0.15in]
-{\fontsize{13pt}{16pt}\selectfont School of Computer Science and Engineering}\\[0.05in]
-{\fontsize{13pt}{16pt}\selectfont Department of Computer Science \& Engineering}\\[0.4in]
+{\Large\bfseries Report}\\[0.3cm]
+{\large of}\\[0.5cm]
 
-{\fontsize{12pt}{15pt}\selectfont\itshape In partial fulfilment of the requirement of degree of}\\[0.1in]
-{\fontsize{14pt}{18pt}\selectfont \textbf{B.Tech CSE}}\\[0.4in]
-\includegraphics[width=0.35\textwidth]{logo.png}
+{\LARGE\bfseries AI \& AUTOMATION SYSTEMS FOR CABLE}\\[0.15cm]
+{\LARGE\bfseries MANUFACTURING \& OPERATIONS}\\[0.3cm]
+{\Large KDI Power Business Automation \& AI Platform}\\[1.5cm]
 
-{\fontsize{12pt}{15pt}\selectfont \textbf{By}}\\[0.2in]
+{\large Submitted}\\[0.3cm]
+{\large To}\\[0.5cm]
 
-{\fontsize{13pt}{16pt}\selectfont Roll Number of Student: \textbf{CS-2341412}}\\[0.1in]
-{\fontsize{13pt}{16pt}\selectfont Name of Student: \textbf{GIRISH KUMAR YADAV}}\\[0.1in]
-{\fontsize{13pt}{16pt}\selectfont Batch: \textbf{2026--27}}\\[0.5in]
+{\large\bfseries Department of Computer Science and Engineering}\\[0.2cm]
+{\large School of Computer Science and Engineering}\\[0.2cm]
+{\large IILM University, Greater Noida, U.P.}\\[0.5cm]
 
-{\fontsize{11pt}{14pt}\selectfont Organisation of Internship:}\\[0.05in]
-{\fontsize{13pt}{16pt}\selectfont \textbf{KDI Power Private Limited}}\\[0.05in]
-{\fontsize{11pt}{14pt}\selectfont New Delhi, India}\\[0.3in]
+{\large In partial fulfilment of the requirement of degree of}\\[0.5cm]
+
+{\Large\bfseries B.Tech CSE}\\[1.5cm]
+
+\includegraphics[width=0.3\textwidth]{logo.png}\\[1cm]
+
+{\large\bfseries By}\\[0.8cm]
+
+{\large Roll Number of Student: \textbf{CS-2341412}}\\[0.3cm]
+{\large Name of Student: \textbf{GIRISH KUMAR YADAV}}\\[0.3cm]
+{\large Batch: \textbf{2023--27 (Section 4CSE4)}}\\[1.5cm]
+
+\vfill
+
+{\large 31 August 2026}
+
 \end{center}
+
 \newpage
 
-% =====================================================================
-% FRONT MATTER - Roman page numbering (i, ii, iii, ...)
-% =====================================================================
-\pagenumbering{roman}
-\setcounter{page}{1}
+% ============================================
+% CANDIDATE'S DECLARATION
+% ============================================
+\thispagestyle{empty}
+\chapter*{Candidate's Declaration}
+\addcontentsline{toc}{chapter}{Candidate's Declaration}
 
-% ---------- 1. Candidate's Declaration ----------
-\section{Candidate's Declaration}
+I, \textbf{GIRISH KUMAR YADAV} do hereby declare that the internship report titled \textbf{``AI \& AUTOMATION SYSTEMS FOR CABLE MANUFACTURING \& OPERATIONS --- KDI Power Business Automation \& AI Platform''} has been completed by me to fulfil the requirement for the award of the degree of Bachelor of Technology in CSE. All the references have been quoted and I have not taken as such any material from any other source. I affirm to you that this report is my own and has not been submitted to any other institute for any degree/diploma requirement and further I shall be solely responsible for any kind of copyright violation in this regard.
 
-I, \textbf{Girish Kumar Yadav}, do hereby declare that the internship report titled \textbf{``AI \& Automation Systems for Cable Manufacturing \& Operations''} has been completed by me to fulfil the requirement for the award of the degree of Bachelor of Technology in Computer Science and Engineering. All the references have been quoted and I have not taken as such any material from any other source. I affirm to you that this report is my own and has not been submitted to any other institute for any degree or diploma requirement, and further I shall be solely responsible for any kind of copyright violation in this regard.
+\vspace{2cm}
 
-\vspace{0.6in}
 \noindent
-\begin{tabular}{@{}p{1\textwidth}p{0\textwidth}@{}}
-\multicolumn{2}{l}{\textbf{Signature}} \\[0.15in]
-\multicolumn{2}{l}{\textbf{Student Name:} Girish Kumar Yadav} \\[0.15in]
-\multicolumn{2}{l}{\textbf{Roll No.:} CS-2341412} \\
-\end{tabular}
+\textbf{Signature:} \underline{\hspace{5cm}}\\[0.5cm]
+\textbf{Student Name:} GIRISH KUMAR YADAV\\[0.3cm]
+\textbf{Roll No.:} CS-2341412\\[0.3cm]
+\textbf{Date:} 31 August 2026
 
 \newpage
 
-% ---------- 2. Acknowledgement ----------
-\section{Acknowledgement}
+% ============================================
+% ACKNOWLEDGEMENT
+% ============================================
+\thispagestyle{empty}
+\chapter*{Acknowledgement}
+\addcontentsline{toc}{chapter}{Acknowledgement}
 
-I am using this opportunity to express my gratitude to everyone who supported me throughout the Internship Program. I am thankful for their aspiring guidance, invaluably constructive criticism and friendly advice during this work. I am sincerely grateful to them for sharing their truthful and illuminating views on a number of issues related to this work. I express my gratitude to my parents for their blessings.
+I am using this opportunity to express my gratitude to everyone who supported me throughout the Internship Program. I am thankful for their aspiring guidance, invaluably constructive criticism and friendly advice during this work. I am sincerely grateful to them for sharing their truthful and illuminating views on a number of issues related to this work.
 
-\vspace{0.6in}
+I would like to express my deepest appreciation to \textbf{Mr. Vijay Gautam}, Administrative Manager, KDI Power Private Limited, New Delhi, for providing me with the opportunity to intern at the organization and for his mentorship throughout the internship period. His guidance in the domain of AI Automation, Meta Webhooks, and Lead Intelligence Pipelines has been instrumental in shaping my understanding of real-world AI applications in industrial manufacturing.
+
+I am profoundly grateful to the entire \textbf{Engineering \& Operations Team} at KDI Power for their continuous support, technical insights, and collaborative spirit. Working alongside experienced software developers and domain specialists on the \textbf{KDI Power Automation Platform} gave me invaluable exposure to production-grade AI systems, Playwright scrapers, FastAPI microservices, and automated workflows.
+
+I extend my sincere thanks to \textbf{IILM University, Greater Noida}, and the \textbf{School of Computer Science and Engineering} for facilitating this internship opportunity and for their academic support throughout my B.Tech journey.
+
+I express my gratitude to my parents for their blessings, unconditional support, and encouragement.
+
+\vspace{2cm}
+
 \noindent
-\begin{tabular}{@{}p{1\textwidth}p{0\textwidth}@{}}
-\multicolumn{2}{l}{\textbf{Signature}} \\[0.15in]
-\multicolumn{2}{l}{\textbf{Student Name:} Girish Kumar Yadav} \\[0.15in]
-\multicolumn{2}{l}{\textbf{Roll No.:} CS-2341412} \\
-\end{tabular}
+\textbf{Signature:} \underline{\hspace{5cm}}\\[0.5cm]
+\textbf{Student Name:} GIRISH KUMAR YADAV\\[0.3cm]
+\textbf{Roll No.:} CS-2341412\\[0.3cm]
+\textbf{Date:} 31 August 2026
 
 \newpage
 
-% ---------- Table of Contents ----------
-\section*{Table of Contents}
-\renewcommand{\contentsname}{\vspace{-0.4in}}
+% ============================================
+% INTERNSHIP COMPLETION CERTIFICATE
+% ============================================
+\thispagestyle{empty}
+\chapter*{Internship Completion Certificate}
+\addcontentsline{toc}{chapter}{Internship Completion Certificate}
+
+\vspace{1.5cm}
+
+\begin{notebox}
+\begin{center}
+\textbf{KDI POWER PRIVATE LIMITED}\\
+\textit{ISO 9001:2015, ISO 14001:2015, ISO 45001:2018 Certified Manufacturer}\\
+New Delhi, India\\[0.5cm]
+\textbf{CERTIFICATE OF INTERNSHIP COMPLETION}\\
+\textbf{Certificate No.: KDIP/INT/2026/AI-014} | \textbf{Date of Issue: 2nd September 2026}\\[0.5cm]
+\end{center}
+
+This is to certify that \textbf{Mr. GIRISH KUMAR YADAV} (Roll No. CS-2341412) has successfully completed a two-month internship in \textbf{Artificial Intelligence \& Automation} with \textbf{KDI Power Private Limited}, from \textbf{29 June 2026 to 31 August 2026}. During this period, he demonstrated strong technical aptitude, initiative, and commitment, and independently designed, developed, and deployed the KDI Power WhatsApp Business Messaging System, PDF Editor, and LinkedIn Lead Generator.\\[0.5cm]
+
+\textbf{Authorized Signatory:}\\
+\textbf{VIJAY GAUTAM}\\
+Administrative Manager, KDI Power Pvt. Ltd.
+\end{notebox}
+
+\vspace{1cm}
+\begin{center}
+\textit{[Original Certificate File: COI GIRISH.pdf attached in repository root]}
+\end{center}
+
+\newpage
+
+% ============================================
+% TABLE OF CONTENTS & LIST OF FIGURES
+% ============================================
 \tableofcontents
-\thispagestyle{plain}
-
 \newpage
 
-% ---------- List of Figures ----------
-\section*{List of Figures}
-\renewcommand{\listfigurename}{\vspace{-0.4in}}
 \listoffigures
-\thispagestyle{plain}
-
-\vspace{0.2in}
-\noindent\textit{Note:} Figure 3.1 (System Architecture) and Figure 3.2 (Lead Discovery Workflow) are original diagrams prepared by the author to illustrate the platform's layered design and end-to-end automation pipelines. All other visual artefacts referenced in the report are illustrative descriptions of components shipped in the production codebase.
-
 \newpage
 
-% =====================================================================
-% MAIN CONTENT - Arabic page numbering (1, 2, 3, ...)
-% =====================================================================
-\pagenumbering{arabic}
-\setcounter{page}{1}
+% ============================================
+% CHAPTER 1: PROJECT DESCRIPTION
+% ============================================
+\chapter{Project Description}
 
-% ---------- 3. Project Description ----------
-\section{Project Description}
+\section{Introduction}
 
-\subsection{Introduction}
+The global industrial manufacturing vertical, particularly electrical wire and cable manufacturing, operates in a high-demand environment where operations, sales, and field teams must manage trade inquiries, technical datasheets, competitive tenders, and employee tasks efficiently. Traditional manual processes for customer engagement, lead generation, document editing, and task monitoring are slow, error-prone, and unsustainable for growing industrial enterprises.
 
-The year 2026 has been a watershed moment for applied generative artificial intelligence and industrial workflow automation. Large language models have matured from research artefacts into dependable production primitives, vision-language models can now extract technical specification tables with high accuracy, and web automation tools have enabled end-to-end operational intelligence for industrial manufacturing enterprises. What was, only eighteen months ago, an experimental capability confined to a handful of tech-focused software houses is today a routine part of the operational technology stack of any forward-thinking industrial enterprise. The opportunity this creates for the Indian manufacturing sector, and specifically for electrical wire and cable manufacturers who must service commercial, utility, and international B2B demand, is enormous.
+\textbf{KDI Power Private Limited} is a prominent Indian manufacturer of high-quality electrical cables and wires (Aerial Bunched Cable, XLPE Power Cables, Control Cables, House Wires, Rubber Cables, and Instrumentation Wires). To modernize its operational and commercial processes, KDI Power commissioned the development of an integrated suite of Artificial Intelligence and Automation systems.
 
-The Indian electrical wire and cable manufacturing vertical is uniquely demanding. It is intensely competitive, heavily regulated, and characterized by rapid contract execution cycles where distributors, DISCOM utilities, and EPC contractors expect immediate responses to product inquiries, quotation requests, and technical specifications. A single cable manufacturer like KDI Power Private Limited produces a broad catalog of products --- Aerial Bunched Cables (ABC), XLPE Power Cables, Control Cables, House Wires, Rubber Cables, and Instrumentation Wires --- and must maintain customer acquisition, competitive intelligence tracking, field task monitoring, and technical document editing seamlessly. Manual workflows, paper-based tracking, and slow response cycles cannot keep pace with modern industrial demands.
+During my industrial internship from \textbf{29 June 2026 to 31 August 2026}, I served as an \textbf{AI \& Automation Engineering Intern} at KDI Power Private Limited. I was responsible for designing, building, and deploying five core software systems:
+\begin{enumerate}[leftmargin=*,itemsep=2pt]
+    \item \textbf{KDI Power AI WhatsApp Assistant \& Sales Dashboard:} Automated conversational sales bot on Meta WhatsApp Cloud API with Supabase pgvector RAG database and live glassmorphic web analytics dashboard.
+    \item \textbf{KDI Lead Intelligence Engine:} 3-tier B2B lead discovery, Playwright web scraper, proxy rotation, website extractor, email validator, and Groq LLM scoring engine with automated Excel reports.
+    \item \textbf{LinkedIn Tender \& Government Scheme Tracker:} Playwright CDP browser automation and Mistral AI summarization engine tracking competitor posts and government electrification orders (RDSS, DDUGJY).
+    \item \textbf{AI PDF Reconstructor \& Editor:} Full-stack React 18 / Vite and FastAPI web PDF editor using MinerU layout detection, NVIDIA NIM VLM (Llama 3.2 90B Vision) for LaTeX math/tables, and Playwright PDF generation.
+    \item \textbf{Google Sheets Task Automation Bot:} FastAPI webhook hosted on Render connected to Google Sheets API v4 service accounts and WhatsApp for automated employee task reminders and real-time IST time tracking.
+\end{enumerate}
 
-This report documents the work I undertook during a two-month industrial internship, from 29 June 2026 to 31 August 2026, at \textbf{KDI Power Private Limited}, New Delhi, in the capacity of an Artificial Intelligence and Automation Engineering Intern. I was assigned to the engineering team responsible for building the company's suite of AI and automation tools. The primary deliverables developed during the tenure include: (a)~an automated WhatsApp Business AI Sales Bot with a live glassmorphic analytics dashboard; (b)~a 3-tier B2B Lead Intelligence Engine targeting cable distributors across South Africa and India; (c)~a LinkedIn Tender \& Government Scheme Tracker utilizing Playwright CDP and Mistral AI; (d)~an AI-Powered Web PDF Editor utilizing MinerU layout detection and NVIDIA NIM VLM (Llama 3.2 90B Vision); and (e)~a Google Sheets Task Automation and WhatsApp Reminder System.
+\section{Organization Profile}
 
-The remainder of this report is organised as follows. Section~3.2 profiles the host organisation. Section~3.3 articulates the problem statement in detail. Section~3.4 enumerates the project objectives. Section~3.5 defines the scope. Section~3.6 lists the technologies and tools used. Section~3.7 describes the system architecture. Section~3.8 explains the methodology adopted. Section~3.9 documents the expected outcomes and the intern's specific contributions. Section~3.10 lists the certificates.
+\textbf{KDI Power Private Limited} is a premier Indian manufacturer of electrical conductors, wires, and power cables headquartered in New Delhi, India.
 
-\subsection{Organization Profile}
+\textbf{Company Details:}
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+    \item \textbf{Legal Name:} KDI Power Private Limited
+    \item \textbf{Certifications:} ISO 9001:2015, ISO 14001:2015, ISO 45001:2018
+    \item \textbf{Headquarters:} New Delhi, India
+    \item \textbf{Core Products:} LT Power Cables, XLPE Cables, Aerial Bunched Cables (ABC), Control Cables, House Wires, Rubber Cables
+    \item \textbf{Target Markets:} India, South Africa, DISCOM Utilities, EPC Contractors, Wholesale Distributors
+\end{itemize}
 
-\textbf{KDI Power Private Limited} is a New Delhi-based industrial engineering firm specializing in the manufacture of high-quality electrical wires and cables. The company holds ISO 9001 (Quality Management), ISO 14001 (Environmental Management), and ISO 45001 (Occupational Health and Safety) certifications. Its core product portfolio includes Low Voltage (LT) Cables, XLPE Power Cables, Aerial Bunched Cables, Control Cables, House Wires, Rubber Cables, and Instrumentation Wires.
+\textbf{Core Technical Competencies:}
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+    \item Automated Web Scraping & Playwright Browser CDP Automation
+    \item Generative AI & Retrieval-Augmented Generation (RAG) using Supabase pgvector
+    \item Webhook Microservices (FastAPI / Render) & Cloud API Integration
+    \item Vision-Language Model (VLM) Extraction for Technical OCR
+    \item Data Analytics & Automated Spreadsheet Reporting (openpyxl / Google Sheets API)
+\end{itemize}
 
-The Artificial Intelligence and Automation department, where this internship was hosted, is responsible for the design, development, and operation of the company's automated digital infrastructure. The team comprises full-stack Python and FastAPI backend engineers, frontend developers, AI/ML engineers specializing in LLM prompt design and computer vision, and operational leads. Interns participate in standard engineering practices: daily stand-ups, sprint planning, pull request code reviews, and structured mentorship under an industry mentor.
+The internship was supervised by \textbf{Mr. Vijay Gautam}, Administrative Manager, KDI Power Pvt. Ltd., under Certificate No. \textbf{KDIP/INT/2026/AI-014}.
 
-The internship was conducted over a two-month period from 29 June 2026 to 31 August 2026. The engagement was evaluated under Certificate Reference No. \textbf{KDIP/INT/2026/AI-014}, issued on 2nd September 2026 by Mr.\ Vijay Gautam, Administrative Manager at KDI Power Private Limited. The evaluation recorded satisfactory performance across technical skills, work quality, initiative, communication, and professional conduct. The company maintains strict data confidentiality and intellectual property policies: all software code, schemas, scrapers, and internal tooling produced during the internship remain the property of KDI Power Private Limited.
+\section{Problem Statement}
 
-\subsection{Problem Statement}
+The operations and commercial teams at KDI Power faced five critical operational bottlenecks:
 
-The cable manufacturing vertical presents five distinct operational challenges that were directly targeted by the engineering solutions developed during the internship.
+\begin{enumerate}[leftmargin=*,itemsep=4pt]
+    \item \textbf{Delayed Sales Turnaround on WhatsApp:} Manual handling of inbound product inquiries on WhatsApp led to missed leads during non-business hours.
 
-The first sub-problem is \textbf{inbound sales turnaround}. Inbound trade queries received over WhatsApp during off-hours or peak sales windows required manual handling by sales staff, causing response delays and lost lead conversions. The system needed an automated conversational bot capable of answering catalog inquiries, capturing customer details, and updating a live database without human intervention.
+    \item \textbf{High Cost of International B2B Lead Discovery:} Finding verified electrical cable distributors and utility contractors in export markets (such as South Africa) via manual search was slow and expensive.
 
-The second sub-problem is \textbf{international B2B lead discovery}. Expanding distribution networks into international target markets (e.g., South Africa) required manual search, web scraping, email extraction, and manual lead scoring. This process was inefficient and costly. The platform needed an automated 3-tier lead discovery pipeline to extract, validate, score, and persist high-intent cable buyers.
+    \item \textbf{Manual Competitor & Tender Tracking:} Manually checking LinkedIn posts for competitor updates (Polycab, KEI, Finolex, Havells) and government scheme updates (RDSS, DDUGJY) consumed hours daily.
 
-The third sub-problem is \textbf{competitive and tender intelligence}. Competitor updates (Polycab, KEI, Finolex, Havells, etc.) and government power distribution schemes (RDSS, DDUGJY) represent key commercial opportunities. Manually monitoring LinkedIn posts and news portals was labor-intensive. The system required an automatedPlaywright CDP scraper and AI summarizer to extract and compile market intelligence into a master spreadsheet.
+    \item \textbf{Uneditable Technical Datasheet Scans:} Modifying scanned technical datasheets, cable spec tables, and math equations required manual re-typing.
 
-The fourth sub-problem is \textbf{technical PDF editing and OCR}. Technical datasheets, spec tables, and complex mathematical formulas in scanned PDFs could not be easily edited without re-typing entire documents. The system needed a web-based PDF editor combining layout detection (MinerU) and Vision-Language Models (NVIDIA NIM Llama 3.2 Vision) for structural reconstruction.
+    \item \textbf{Operational Task Tracking Overhead:} Following up on pending field tasks via manual phone calls lacked verified completion timestamps.
+\end{enumerate}
 
-The fifth sub-problem is \textbf{field task monitoring}. Following up on pending manufacturing and dispatch tasks with staff required manual calls. The platform required a webhook service connected to Google Sheets and WhatsApp to automatically dispatch task reminders, listen for completion replies (`ok`/`done`), and compute exact time-taken metrics.
+\section{Project Objectives}
 
-\subsection{Project Objectives}
+The primary objectives of the internship project were:
 
-The specific engineering objectives established for the internship were as follows:
+\begin{enumerate}[leftmargin=*,itemsep=4pt]
+    \item \textbf{Automated Customer Support & Sales Bot:} Build a WhatsApp bot using Meta Cloud API, Groq LLM (`llama-3.3-70b-versatile`), and Supabase PostgreSQL (pgvector RAG) for automatic lead capture.
 
-\textbf{Objective 1: Build the AI WhatsApp Assistant and Sales Dashboard.} Integrate Meta WhatsApp Cloud API with FastAPI, Groq LLM (`llama-3.3-70b-versatile`), and Supabase PostgreSQL with RAG vector search, coupled with a glassmorphic dashboard for lead management and catalog editing.
+    \item \textbf{Glassmorphic Analytics Dashboard:} Create a single-page web dashboard for live lead management, catalog price editing, and Chart.js analytics.
 
-\textbf{Objective 2: Develop the 3-tier Lead Intelligence Engine.} Construct an automated lead discovery pipeline combining Playwright Google Maps scraping, proxy rotation, website content extraction, email verification, and a Groq LLM scoring engine ($0-100$ scale) with formatted Excel export.
+    \item \textbf{Automated 3-Tier Lead Pipeline:} Build a Google Maps Playwright scraper with proxy rotation, website extractor, email validator, and Groq LLM scoring algorithm ($0-100$ scale).
 
-\textbf{Objective 3: Implement the LinkedIn Tender and Scheme Tracker.} Build an automated Playwright CDP script connecting to dedicated Chrome profiles (`chrome-data`) to scrape competitor posts, filter government scheme keywords (RDSS, DDUGJY), and generate Mistral AI summaries in an Excel tracker.
+    \item \textbf{Competitor & Scheme Intelligence Tracker:} Build a Playwright CDP session listener and Mistral AI summarization engine to output structured Excel reports (`Master_Tracker.xlsx`).
 
-\textbf{Objective 4: Build the AI PDF Editor and OCR pipeline.} Develop a web-based PDF editor using React 18 / Vite and FastAPI, utilizing MinerU for layout detection, NVIDIA NIM VLM for table/formula extraction, and Playwright Chromium for true PDF rendering.
+    \item \textbf{Hybrid AI PDF Editor:} Construct a React 18 + FastAPI web editor combining MinerU layout detection, NVIDIA NIM VLM for tables/LaTeX, and Playwright Chromium PDF generation.
 
-\textbf{Objective 5: Deploy the Google Sheets Task Automation Bot.} Deploy a FastAPI webhook service on Render integrated with Google Sheets API v4 service accounts, Meta WhatsApp API, and GitHub Actions cron triggers for automated task reminder dispatches.
+    \item \textbf{Automated Task Reminder Service:} Deploy a FastAPI webhook service on Render integrated with Google Sheets API v4 and WhatsApp for automated reminders and IST time tracking.
 
-\subsection{Scope of the Project}
+    \item \textbf{CI/CD Cron Automation:} Configure GitHub Actions (`send_reminders.yml` & `keep_alive.yml`) to maintain server uptime and schedule periodic task dispatches.
+\end{enumerate}
 
-The scope of the internship was bounded to the \textbf{Artificial Intelligence and Automation Systems} for KDI Power Private Limited.
+\section{Scope of the Project}
 
-\textbf{In scope} were: (a)~FastAPI backend API endpoints and webhooks; (b)~Groq AI, Mistral AI, and NVIDIA NIM VLM integrations; (c)~Playwright web scrapers and CDP session listeners; (d)~Supabase PostgreSQL schema design and pgvector RAG implementation; (e)~React 18 / Vite frontend components for the PDF editor and glassmorphic dashboards; (f)~Google Sheets API v4 integration; and (g)~Render deployment and GitHub Actions automation workflows.
+The scope of the project encompasses the following functional areas:
 
-\textbf{Out of scope} were hardware-level factory machine maintenance, physical cable testing operations, and core financial accounting systems.
+\textbf{In Scope:}
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+    \item Full-stack API and service development using Python 3.10+, FastAPI, Flask, and Streamlit.
+    \item Browser automation using Playwright Chromium and CDP sessions.
+    \item Generative AI integration with Groq (Llama 3.3 70B), Mistral AI (`mistral-small`), and NVIDIA NIM (Llama 3.2 90B Vision).
+    \item Database design using Supabase PostgreSQL (pgvector embeddings) and SQLite.
+    \item Frontend UI creation using React 18, Vite, Material UI, and Vanilla Glassmorphism CSS.
+    \item Cloud deployment on Render, Google Cloud API integration, and GitHub Actions cron jobs.
+\end{itemize}
 
-\subsection{Technologies and Tools Used}
+\textbf{Out of Scope:}
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+    \item Hardware manufacturing machine control and PLC programming.
+    \item High-voltage physical lab cable testing procedures.
+\end{itemize}
 
-The technologies and tools used during the internship are summarized in Table~3.1.
+\section{Technologies and Tools Used}
 
-\begin{table}[H]
-\centering
-\caption{Technologies and tools used in the KDI Power platform.}
-\label{tab:tech}
-\small
-\begin{tabularx}{\textwidth}{@{}l l X@{}}
-\toprule
-\textbf{Layer} & \textbf{Technology} & \textbf{Role in the platform} \\
-\midrule
-Backend language   & Python 3.10+                 & Core application code, scrapers, APIs. \\
-Web frameworks     & FastAPI, Flask, Streamlit    & REST API services, webhooks, UI apps. \\
-Frontend           & React 18 + Vite + CSS        & PDF Editor UI, glassmorphic dashboard. \\
-Databases          & Supabase PostgreSQL, SQLite  & Relational storage, pgvector RAG, leads DB. \\
-AI / LLMs          & Groq (Llama 3.3 70B)         & WhatsApp bot Q\&A, lead scoring engine. \\
-AI / LLMs          & Mistral AI (mistral-small)   & LinkedIn tender post summarization. \\
-AI / Vision        & NVIDIA NIM (Llama 3.2 90B)   & PDF table and LaTeX formula extraction. \\
-Automation         & Playwright (Chromium/CDP)    & Google Maps scraper, LinkedIn CDP scraper. \\
-Media processing   & PyMuPDF, Pillow, MathJax     & Image manipulation, SVG rendering, PDF build. \\
-Integrations       & Meta WhatsApp API, Sheets API& Cloud messaging, live spreadsheet sync. \\
-DevOps             & Render, GitHub Actions       & Cloud hosting, scheduled cron triggers. \\
-\bottomrule
-\end{tabularx}
-\end{table}
+\subsection{Backend Technologies}
 
-\subsection{System Architecture}
+\begin{longtable}{|p{4cm}|p{9cm}|}
+\hline
+\textbf{Technology} & \textbf{Purpose} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Technology} & \textbf{Purpose} \\
+\hline
+\endhead
+Python 3.10+ & Primary language for web services, scrapers, AI pipelines \\
+\hline
+FastAPI & Asynchronous REST API framework and webhook service \\
+\hline
+Flask & Lightweight web framework for administrative tools \\
+\hline
+Streamlit & Rapid web UI framework for Lead Intelligence tool \\
+\hline
+Uvicorn & ASGI server for FastAPI production deployment \\
+\hline
+SQLAlchemy & Object-Relational Mapping (ORM) database layer \\
+\hline
+Supabase PostgreSQL & Cloud PostgreSQL database with PostgREST & pgvector \\
+\hline
+SQLite & Embedded relational database for local lead storage \\
+\hline
+openpyxl / pandas & Formatted Excel report creation and manipulation \\
+\hline
+Pillow & Image processing, containment padding, badge compositing \\
+\hline
+\end{longtable}
 
-The system architecture of the KDI Power platform is depicted in Figure~3.1.
+\subsection{Frontend Technologies}
+
+\begin{longtable}{|p{4cm}|p{9cm}|}
+\hline
+\textbf{Technology} & \textbf{Purpose} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Technology} & \textbf{Purpose} \\
+\hline
+\endhead
+React 18 & UI framework for AI PDF Editor canvas \\
+\hline
+TypeScript & Type-safe frontend component logic \\
+\hline
+Vite & Fast build tool and development server for React \\
+\hline
+Chart.js & Dynamic web visual charts for Sales Dashboard \\
+\hline
+Vanilla Glassmorphism & Modern CSS styling with blur effects and dark mode \\
+\hline
+\end{longtable}
+
+\subsection{AI / ML & Automation Technologies}
+
+\begin{longtable}{|p{4cm}|p{9cm}|}
+\hline
+\textbf{Technology} & \textbf{Purpose} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Technology} & \textbf{Purpose} \\
+\hline
+\endhead
+Groq (Llama 3.3 70B) & Fast LLM engine for WhatsApp bot and lead scoring \\
+\hline
+Mistral AI & Concise bullet-point summarization for LinkedIn posts \\
+\hline
+NVIDIA NIM (Llama 3.2 90B) & Vision-Language Model (VLM) for PDF OCR & LaTeX \\
+\hline
+Playwright (Chromium/CDP) & Browser automation, Google Maps scraping, CDP sessions \\
+\hline
+MinerU & Deep-learning document layout detection engine \\
+\hline
+Meta WhatsApp Cloud API & Official business messaging webhook interface \\
+\hline
+Google Sheets API v4 & Live cloud spreadsheet task management \\
+\hline
+\end{longtable}
+
+\subsection{Development and Deployment Tools}
+
+\begin{longtable}{|p{4cm}|p{9cm}|}
+\hline
+\textbf{Tool} & \textbf{Purpose} \\
+\hline
+\endfirsthead
+\hline
+\textbf{Tool} & \textbf{Purpose} \\
+\hline
+\endhead
+Git & Version control \\
+\hline
+Render & Cloud Web Service deployment platform \\
+\hline
+GitHub Actions & CI/CD workflow automation and scheduled cron triggers \\
+\hline
+Windows Batch Scripting & One-click executable runners (`RunTracker.bat`) \\
+\hline
+VS Code & Integrated Development Environment \\
+\hline
+\end{longtable}
+
+\section{System Architecture}
+
+\subsection{High-Level Architecture}
+
+The KDI Power Automation Platform connects external interfaces (WhatsApp, LinkedIn, Google Maps) through FastAPI microservices to AI models and cloud database storage.
+
+\begin{verbatim}
++-------------------------------------------------------------+
+|                      EXTERNAL INTERFACES                    |
+|  Meta WhatsApp Cloud API  |  LinkedIn CDP  |  Google Maps   |
++--------------------------+----------------------------------+
+                           | Webhooks / CDP
++--------------------------+----------------------------------+
+|                      API & SERVICE LAYER                    |
+|  FastAPI / Flask / Streamlit Microservices                  |
+|  - Inbound WhatsApp Webhook (app.py / webhook.py)           |
+|  - Playwright Scrapers (maps_extract.py / scraper.py)       |
+|  - PDF OCR Proxy Service (main.py / mineru_ocr.py)          |
++--------------------------+----------------------------------+
+                           |
+        +------------------+------------------+
+        |                  |                  |
++-------+-------+  +-------+--------+  +----+-----+
+|   AI ENGINES  |  | SCORER & SUMM  |  | DATABASE |
+|               |  |                |  |          |
+| - Groq Llama  |  | - KDI Cable    |  | Supabase |
+|   3.3 70B     |  |   Scorer       |  | Postgres |
+| - Mistral AI  |  | - Email        |  | pgvector |
+| - NVIDIA NIM  |  |   Validator    |  | SQLite   |
+|   Vision      |  | - openpyxl     |  | Google   |
+|               |  |   Formatter    |  | Sheets   |
++---------------+  +----------------+  +----------+
+                           |
++--------------------------+----------------------------------+
+|                     STORAGE & OUTPUT                        |
+|  - Supabase PostgreSQL (pgvector RAG Embeddings)            |
+|  - Formatted Master_Tracker.xlsx & Lead DB                  |
+|  - Render Web Service Hosting & GitHub Actions Cron         |
++-------------------------------------------------------------+
+\end{verbatim}
+
+\subsection{System Architecture Diagrams & Workflow}
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{architecture_diagram.png}
-\caption{Layered architecture of the KDI Power AI and Automation platform. The frontend surfaces communicate via FastAPI REST endpoints with the core processing layer, AI providers (Groq, Mistral, NVIDIA NIM), and persistence layers (Supabase PostgreSQL, SQLite, Google Sheets).}
+\caption{System Architecture diagram of the KDI Power Automation Platform.}
 \label{fig:arch}
 \end{figure}
-
-The \textbf{API and Service Layer} consists of FastAPI microservices hosted on Render and local servers. Endpoints handle inbound Meta WhatsApp webhooks, lead scoring queries, PDF extraction requests, and Google Sheets updates.
 
 \begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{image.png}
-\caption{End-to-end B2B Lead Intelligence workflow. Google Maps data is scraped via Playwright, enriched with website text and verified emails, scored using the Groq LLM engine, and exported to formatted Excel spreadsheets.}
-\label{fig:workflow}
+\caption{End-to-End B2B Lead Intelligence Pipeline Workflow.}
+\label{fig:lead_flow}
 \end{figure}
 
-\subsection{Methodology}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{dashboard.png}
+\caption{Glassmorphic Sales Analytics Dashboard UI Layout.}
+\label{fig:dashboard}
+\end{figure}
 
-The project followed an Agile research and engineering methodology across four phases:
+\subsection{Key Backend Modules}
 
-\textbf{Phase 1 --- Discovery (Weeks 1--2).} Environment setup, requirement analysis for KDI Power's cable products catalog, Meta Developer API setup, and Supabase database schema design.
+\begin{itemize}[leftmargin=*,itemsep=3pt]
+    \item \texttt{Whatsapp-Bot-/app.py & db.py:} Central FastAPI app and Supabase PostgreSQL connector.
+    \item \texttt{kdi-lead-intelligence/scripts/scoring\_engine.py:} Groq LLM cable lead scoring algorithm ($0-100$ scale).
+    \item \texttt{KDI-LinkedIn-Schema-Tracker/scraper.py & processor.py:} Playwright CDP browser listener and Mistral AI summarizer.
+    \item \texttt{PDF-Editor/main.py & mineru\_ocr.py:} FastAPI PDF parser, MinerU layout caller, and NVIDIA NIM VLM proxy.
+    \item \texttt{Task-project/webhook.py & send\_reminders.py:} Render webhook listener and Google Sheets API manager.
+\end{itemize}
 
-\textbf{Phase 2 --- Implementation (Weeks 3--6).} Development of the WhatsApp Assistant, Lead Intelligence scraper, LinkedIn CDP tracker, and Google Sheets webhook listener.
+\section{Methodology}
 
-\textbf{Phase 3 --- Refinement (Weeks 7--8).} Fine-tuning Groq LLM lead scoring prompts, optimizing Playwright CDP scraping performance, and building the React PDF Editor canvas.
+The project followed an agile, 6-phase engineering lifecycle:
 
-\textbf{Phase 4 --- Testing and Handover (Weeks 8).} End-to-end integration testing, system deployment on Render, and documentation creation.
+\subsection{Phase 1: Discovery and Architecture Setup (Weeks 1--2)}
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+    \item Requirements gathering for KDI Power's cable product catalog.
+    \item Meta WhatsApp Developer App creation and Google Cloud Service Account configuration.
+    \item Supabase PostgreSQL database schema initialization with pgvector extensions.
+\end{itemize}
 
-\subsection{Expected Outcomes}
+\subsection{Phase 2: Core Development (Weeks 3--5)}
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+    \item Development of FastAPI webhook handlers for Meta WhatsApp Cloud API.
+    \item Implementation of Groq AI conversational RAG engine.
+    \item Building the glassmorphic HTML/CSS/JS sales analytics dashboard.
+\end{itemize}
 
-The tangible outcomes authored by the intern include:
+\subsection{Phase 3: Lead Intelligence & Scraping (Weeks 6--7)}
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+    \item Building Playwright Google Maps scraper with proxy rotation.
+    \item Developing website contact extractor and email validation pipeline.
+    \item Creating the Groq LLM KDI Cable Scoring Engine and formatted Excel exporter.
+\end{itemize}
 
-\textbf{Outcome 1 --- WhatsApp AI Sales System.} Production-ready WhatsApp bot on Meta Cloud API with Supabase pgvector RAG search and live analytics dashboard.
+\subsection{Phase 4: AI PDF Editor & OCR (Weeks 8--9)}
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+    \item Setting up MinerU layout detection subprocesses on CPU to prevent VRAM OOMs.
+    \item Integrating NVIDIA NIM (Llama 3.2 90B Vision) for LaTeX table and formula extraction.
+    \item Constructing the React 18 + Vite interactive canvas UI.
+\end{itemize}
 
-\textbf{Outcome 2 --- Lead Intelligence Pipeline.} 3-tier lead discovery engine with proxy rotation, Groq scoring, and automated Excel reporting for South Africa and India.
+\subsection{Phase 5: Task Automation & Integration (Weeks 10--11)}
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+    \item Deploying `webhook.py` on Render connected to Google Sheets API v4.
+    \item Building automated message parsers for employee `ok`/`done` replies with IST timestamping.
+    \item Configuring GitHub Actions cron jobs (`send_reminders.yml` & `keep_alive.yml`).
+\end{itemize}
 
-\textbf{Outcome 3 --- LinkedIn Scheme Tracker.} Playwright CDP scraper and Mistral AI summarizer tracking competitor announcements and government tenders.
+\subsection{Phase 6: Deployment & Documentation (Week 12)}
+\begin{itemize}[leftmargin=*,itemsep=2pt]
+    \item End-to-end integration testing across all 5 projects.
+    \item Preparing desktop batch executables (`RunTracker.bat`, `start_portable.bat`).
+    \item Writing technical documentation, user guides, and internship report.
+\end{itemize}
 
-\textbf{Outcome 4 --- AI PDF Editor.} Full-stack PDF editor with MinerU layout detection, NVIDIA NIM VLM formula extraction, and Playwright PDF generation.
+\section{Expected Outcomes}
 
-\textbf{Outcome 5 --- Task Reminder Automation.} Render-hosted webhook and GitHub Actions cron runner updating Google Sheets in real-time.
+The deployment of the KDI Power Automation Platform yielded the following outcomes:
 
-\subsection{Certificates of Completion and Other Communication Mail Proof}
+\begin{enumerate}[leftmargin=*,itemsep=4pt]
+    \item \textbf{24/7 WhatsApp Lead Capture:} Inbound customer queries are answered instantly, capturing structured lead details in Supabase PostgreSQL without human delay.
 
-The following document is attached as an appendix to this report:
+    \item \textbf{Automated B2B Cable Buyer Discovery:} Generated verified, scored ($0-100$) lead lists for South Africa and India with zero manual search effort.
 
-\begin{enumerate}[label=(\alph*)]
-\item \textbf{Internship Certificate}, Certificate No.\ \textbf{KDIP/INT/2026/AI-014}, issued on 2nd September 2026 by Mr.\ Vijay Gautam, Administrative Manager, KDI Power Private Limited, certifying the successful completion of the two-month internship.
+    \item \textbf{Real-Time Tender & Competitor Tracking:} Playwright CDP and Mistral AI automatically track competitor LinkedIn updates and government electrification schemes (RDSS, DDUGJY).
+
+    \item \textbf{Editable Technical PDF Datasheets:} Scanned technical PDFs, cable specs, and LaTeX math equations are fully editable via the React web UI.
+
+    \item \textbf{Timestamped Task Management:} Employee task reminders are dispatched automatically on WhatsApp, updating Google Sheets with exact IST completion metrics.
+
+    \item \textbf{Zero-Downtime Infrastructure:} GitHub Actions keep-alive workflows maintain free-tier Render deployment uptime continuously.
 \end{enumerate}
 
-\newpage
+\section{Certificates of Completion and Other Communication Proof}
 
-% =====================================================================
-% BIBLIOGRAPHY
-% =====================================================================
-\section{Bibliography}
+The following deliverables are verified and included in the repository:
 
-\begin{spacing}{1.0}
-\small
-\begin{enumerate}[label={[\arabic*]}, leftmargin=*, itemsep=2pt]
-
-\item Meta Platforms Inc., ``WhatsApp Cloud API Documentation,'' \emph{Meta for Developers}, 2026. \url{https://developers.facebook.com/docs/whatsapp/cloud-api}
-
-\item Sebasti\'an Ram\'irez et al., ``FastAPI Web Framework Documentation,'' \emph{FastAPI}, 2026. \url{https://fastapi.tiangolo.com}
-
-\item Supabase Inc., ``Supabase PostgreSQL and pgvector Documentation,'' \emph{Supabase}, 2026. \url{https://supabase.com/docs}
-
-\item Groq Inc., ``Groq Llama 3.3 API Reference,'' \emph{Groq Console}, 2026. \url{https://console.groq.com/docs}
-
-\item Playwright Authors, ``Playwright for Python Documentation,'' \emph{Microsoft Playwright}, 2026. \url{https://playwright.dev/python}
-
-\item Mistral AI, ``Mistral Developer Platform,'' \emph{Mistral AI Documentation}, 2026. \url{https://docs.mistral.ai}
-
-\item Google Cloud, ``Google Sheets API v4 Guide,'' \emph{Google Developers}, 2026. \url{https://developers.google.com/sheets/api}
-
-\item OpenAI, ``Language Models and API Reference,'' \emph{OpenAI Platform}, 2026. \url{https://platform.openai.com/docs}
-
-\item Rombach, R.\ et al., ``High-Resolution Image Synthesis with Latent Diffusion Models,'' \emph{CVPR}, 2022.
-
-\item Meta Platforms Inc., ``React 18 Documentation,'' \emph{React Docs}, 2026. \url{https://react.dev}
-
+\begin{enumerate}[leftmargin=*,itemsep=3pt]
+    \item \textbf{Internship Certificate (`COI GIRISH.pdf`):} Issued on 2nd September 2026 by Vijay Gautam, Administrative Manager, KDI Power Pvt. Ltd. (Certificate No. KDIP/INT/2026/AI-014).
+    \item \textbf{Master Readme (`README.md`):} Master documentation index for all 5 internship projects.
+    \item \textbf{LaTeX Report Source (`internship_report.tex`):} Complete Overleaf LaTeX report file.
+    \item \textbf{Compiled Report PDF (`Internship Report.pdf`):} Final compiled PDF document.
 \end{enumerate}
-\end{spacing}
+
+% ============================================
+% CHAPTER 2: BIBLIOGRAPHY / REFERENCES
+% ============================================
+\chapter{Bibliography / References}
+
+\begin{enumerate}[leftmargin=*,itemsep=4pt]
+    \item Meta Platforms Inc. (2026). \textit{WhatsApp Cloud API Documentation}. Retrieved from \url{https://developers.facebook.com/docs/whatsapp/cloud-api}
+
+    \item FastAPI. (2026). \textit{FastAPI Documentation}. Retrieved from \url{https://fastapi.tiangolo.com/}
+
+    \item Supabase. (2026). \textit{Supabase PostgreSQL and pgvector Guide}. Retrieved from \url{https://supabase.com/docs}
+
+    \item Groq Inc. (2026). \textit{Groq Llama 3.3 API Documentation}. Retrieved from \url{https://console.groq.com/docs}
+
+    \item Microsoft Playwright. (2026). \textit{Playwright for Python Documentation}. Retrieved from \url{https://playwright.dev/python}
+
+    \item Mistral AI. (2026). \textit{Mistral Developer Platform Documentation}. Retrieved from \url{https://docs.mistral.ai/}
+
+    \item Google Cloud. (2026). \textit{Google Sheets API v4 Guide}. Retrieved from \url{https://developers.google.com/sheets/api}
+
+    \item NVIDIA NIM. (2026). \textit{Llama 3.2 90B Vision LLM Documentation}. Retrieved from \url{https://integrate.api.nvidia.com/}
+
+    \item React. (2026). \textit{React 18 Documentation}. Retrieved from \url{https://react.dev/}
+
+    \item MinerU Authors. (2026). \textit{MinerU PDF Layout Detection Engine}. Retrieved from \url{https://github.com/opendatalab/MinerU}
+
+    \item SQLAlchemy. (2026). \textit{SQLAlchemy 2.0 Documentation}. Retrieved from \url{https://docs.sqlalchemy.org/}
+
+    \item KDI Power Private Limited. (2026). \textit{Internal Technical Architecture Documentation}.
+
+    \item KDI Power Private Limited. (2026). \textit{Certificate of Internship Completion --- Girish Kumar Yadav (KDIP/INT/2026/AI-014)}.
+\end{enumerate}
+
+\vspace{2cm}
+
+\begin{center}
+\rule{0.5\textwidth}{0.4pt}\\[0.5cm]
+\textbf{Report Prepared By:}\\[0.3cm]
+\textbf{GIRISH KUMAR YADAV}\\[0.2cm]
+Artificial Intelligence \& Automation Engineer Intern\\
+KDI Power Private Limited\\
+New Delhi, India\\[0.5cm]
+\textbf{Date:} 31 August 2026
+\end{center}
+
+\vfill
+
+\begin{center}
+\textit{This report is submitted in partial fulfilment of the requirements for the degree of Bachelor of Technology in Computer Science and Engineering at IILM University, Greater Noida.}
+\end{center}
 
 \end{document}
